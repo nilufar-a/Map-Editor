@@ -1,4 +1,4 @@
-package pkg;
+package call;
 
 import java.awt.List;
 import java.util.ArrayList;
@@ -17,13 +17,20 @@ import org.glassfish.jersey.internal.guava.Maps;
 
 
 @Path("/map-editor")
-public class RESTCalls {
+public class RESTCall {
 	MapEditor me = new MapEditor();
 	 @GET
 	 @Produces(MediaType.APPLICATION_JSON)
 	 @Path ("/getMap")
 	 public Map getMap(@QueryParam ("MapID") int MapID) {
 		 return me.maps.get(MapID);
+	 }
+	 
+	 @GET
+	 @Produces(MediaType.APPLICATION_JSON)
+	 @Path ("/test")
+	 public String test() {
+		 return "I work";
 	 }
 	 
 	 @GET

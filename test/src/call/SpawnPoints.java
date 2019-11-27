@@ -1,4 +1,4 @@
-package pkg;
+package call;
 
 public class SpawnPoints {
 	int x;
