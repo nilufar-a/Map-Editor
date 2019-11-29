@@ -40,7 +40,7 @@ public class RESTCall {
 	
 	public void addMap(int width, int height, int numberOfPlayers, String name) {// exceptions! w,h, min max 0
 		
-		Map newMap = new Map(width, height, numberOfPlayers, maps.size()+1, name);
+		Map newMap = new Map(width, height, numberOfPlayers, maps.size(), name);
 		maps.add(newMap);
 		
 	}
@@ -56,7 +56,9 @@ public class RESTCall {
 	 @Singleton
 	 @Path ("/test")
 	 public Map test() {
-		 addMap(64, 64, 4, "Stubydoobydoo");
+		 maps.clear();
+		 addMap(5, 5, 4, "Stubydoobydoo");
+		 
 		 return maps.get(0);
 	 }
 	 /*
