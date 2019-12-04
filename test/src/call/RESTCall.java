@@ -40,7 +40,7 @@ public class RESTCall {
 	
 	public void addMap(int width, int height, int numberOfPlayers, String name) {// exceptions! w,h, min max 0
 		
-		Map newMap = new Map(width, height, numberOfPlayers, mapsInfo.size(), name);
+		MapInfo newMap = new MapInfo(width, height, numberOfPlayers, mapsInfo.size(), name);
 		mapsInfo.add(newMap);
 		
 	}
