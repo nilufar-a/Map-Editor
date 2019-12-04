@@ -1,5 +1,10 @@
 package call;
 
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
 //import javax.validation.constraints.Max;
 
 public class Map {
@@ -9,9 +14,11 @@ public class Map {
 	public int id;
 	public String name;
 	
-	public Point [] obstacles;
-	public Point [] powerups;
-	public SpawnPoint[] spawnPoints;
+	public ArrayList<Point> obstacles;
+	public ArrayList<Point> powerups;
+	public ArrayList<SpawnPoint> spawnPoints;
+	
+	public MapInfo mapInfo;
 
 
 	
@@ -25,40 +32,101 @@ public class Map {
 		this.numberOfPlayers = numberOfPlayers;
 		this.id = id;
 		this.name = name;
-		//if(isNameOccupied(name)== Boolean.TRUE)
-		
-		int totalMapCells = width*height;
-
-		
-		int maxNumberOfObstacles = (int) (totalMapCells*0.5);
-		int maxNumberOfPowerUps = (int)(totalMapCells*0.3);
-
-		this.obstacles = new Point[maxNumberOfObstacles]; // The number of obstacles can be at most 50% of the whole tiles
-		this.powerups = new Point[maxNumberOfPowerUps];
-		this.spawnPoints = new SpawnPoint[numberOfPlayers];
-		
+		this.mapInfo = new MapInfo(width, height, numberOfPlayers, id, name);
 
 	}
 	
+	public void populateMapMatrix() {
+		for (int i = 0; i < spawnPoints.size(); i++) {
+			int x= spawnPoints.get(i).x;
+			int y = spawnPoints.get(i).y;
+			
+			mapInfo.mapMatrix[x][y] = "SPAWN";
+		}
+		
+		for (int i = 0; i < obstacles.size(); i++) {
+			int x= spawnPoints.get(i).x;
+			int y = spawnPoints.get(i).y;
+			
+			mapInfo.mapMatrix[x][y] = "OBSTACLE";
+		}
+		
+		for (int i = 0; i < powerups.size(); i++) {
+			int x= spawnPoints.get(i).x;
+			int y = spawnPoints.get(i).y;
+			
+			mapInfo.mapMatrix[x][y] = "POWERUP";
+		}
+		
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				if(mapInfo.mapMatrix[j][i] == null)
+				mapInfo.mapMatrix[j][i] = "EMPTY";
+
+			}
+		}
+		
+	}
+	
+	public MapInfo toMapInfo(Map map) { // attributes were set at creation of the map
+		mapInfo.obstacles = (Point[]) map.obstacles.toArray();
+		mapInfo.powerups = (Point[]) map.obstacles.toArray();
+		mapInfo.spawnPoints = (SpawnPoint[]) map.obstacles.toArray();
+		
+		populateMapMatrix();
+		return mapInfo;
+	}
+
 	public Boolean addObstacle(int x, int y) {
 		
 		if (pointIsWithinTheMap(x, y)) {
 			if(isPointFree(x,y)) {
-				obstacles[obstacles.length] = new Point(x,y);
+				obstacles.add(new Point(x,y));
 			}
 			else {
-				obstacles[obstacles.length] = new Point(x,y);
-				removePointFromOtherArrays(x,y, "obstacles");
+				removePointFromAllArrays(x,y);
+				obstacles.add(new Point(x,y));
+			}
+		}
+		
+		return true; 
+	}
+	public Boolean addPowerUp(int x, int y ) {
+		
+		if (pointIsWithinTheMap(x, y)) {
+			if(isPointFree(x,y)) {
+				powerups.add(new Point(x,y));
+			}
+			else {
+				removePointFromAllArrays(x,y);
+				powerups.add(new Point(x,y));
+			}
+		}
+		
+		return true; 
+	}
+	public Boolean addSpawnPoint(int x, int y, Direction dir) {
+		
+		if (pointIsWithinTheMap(x, y)) {
+			if(isPointFree(x,y)) {
+				powerups.add(new SpawnPoint(x,y,dir));
+			}
+			else {
+				removePointFromAllArrays(x,y);
+				powerups.add(new SpawnPoint(x,y,dir));
 			}
 		}
 		
 		return true; 
 	}
 	
+	
 		
-	private void removePointFromOtherArrays(int x, int y, String array) {
-		// TODO Auto-generated method stub
-		
+	private void removePointFromAllArrays(int x, int y) {
+		Point pointToBeRemoved = new Point(x, y);
+		obstacles.removeAll(Collections.singletonList(pointToBeRemoved));
+		powerups.removeAll(Collections.singletonList(pointToBeRemoved));
+		spawnPoints.removeAll(Collections.singletonList(pointToBeRemoved));
 	}
 
 	public boolean pointIsWithinTheMap(int x, int y) {
@@ -71,25 +139,23 @@ public class Map {
 	}
 
 	public Boolean isPointFree(int X, int Y) {
-	Boolean free = Boolean.TRUE;
+		Boolean free = Boolean.TRUE;
+		Point p = new Point(X, Y);
 
-		for (Point point : obstacles) {
-			if(point.getX() == X && point.getY() == Y) {
-				free = Boolean.FALSE;
-				return free;
-			}
+		if(obstacles.contains(p)) {
+			free = Boolean.FALSE;
+			return free;
 		}
-		for (Point point : spawnPoints) {
-			if(point.getX() == X && point.getY() == Y) {
-				free = Boolean.FALSE;
-				return free;
-			}
+
+		if(spawnPoints.contains(p)) {
+			free = Boolean.FALSE;
+			return free;
 		}
-		for (Point point : powerups) {
-			if(point.getX() == X && point.getY() == Y) {
-				free = Boolean.FALSE;
-				return free;
-			}
+		
+		
+		if(spawnPoints.contains(p)) {
+			free = Boolean.FALSE;
+			return free;
 		}
 		
 		return free;

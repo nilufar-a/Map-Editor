@@ -35,19 +35,19 @@ import java.util.concurrent.Executors;
 @Singleton
 @Path("/")
 public class RESTCall {
-	private ArrayList<Map> maps = new ArrayList<Map>();
+	private ArrayList<MapInfo> mapsInfo = new ArrayList<MapInfo>();
 	
 	
 	public void addMap(int width, int height, int numberOfPlayers, String name) {// exceptions! w,h, min max 0
 		
-		Map newMap = new Map(width, height, numberOfPlayers, maps.size(), name);
-		maps.add(newMap);
+		Map newMap = new Map(width, height, numberOfPlayers, mapsInfo.size(), name);
+		mapsInfo.add(newMap);
 		
 	}
 	
 	public void removeMap(int id) { // it doesn't check for duplicates yet tho
 
-				maps.remove(id);
+				mapsInfo.remove(id);
 	}
 	
 	 
@@ -55,11 +55,11 @@ public class RESTCall {
 	 @Produces(MediaType.APPLICATION_JSON)
 	 @Singleton
 	 @Path ("/test")
-	 public Map test() {
-		 maps.clear();
+	 public MapInfo test() {
+		 mapsInfo.clear();
 		 addMap(5, 5, 4, "Stubydoobydoo");
 		 
-		 return maps.get(0);
+		 return mapsInfo.get(0);
 	 }
 	 /*
 	 
