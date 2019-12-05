@@ -1,0 +1,44 @@
+MAP EDITOR
+
+GET getMap
+IN:	String	name
+OUT:	200 	MapObject
+ERR:	500	“Internal Server Error”
+ERR:	404	“Map Not Found”
+
+GET getMapsWithXPlayers
+IN:	int 	NumberOfPlayers
+OUT:	200 	List of “MapObjects” 
+ERR:	500	“Internal Server Error”
+ERR:	404	“Maps Not Found”
+
+GET isNameOccupied
+IN:	String	name
+OUT:	200 	String "occupied"
+ERR:	500	“Internal Server Error”
+ERR:	404	“Map Not Found”
+
+GET getAllMaps
+IN:	-----
+OUT:	200 List of “MapObjects” 
+ERR:	500 “Internal Server Error”
+ERR:	404 “Maps Not Found”
+
+POST uploadMap
+IN:	MapObject “Map”
+OUT:	200 “OK”
+ERR:	500 “Internal Server Error”
+	500 "Invalid Map"
+
+PUT updateMap
+IN:	String “name”
+	MapObject “newMapVersion”
+OUT:	200 “OK”
+ERR:	500 “Internal Server Error”
+ERR:	404 “Map Not Found”
+
+DELETE	deleteMap
+IN:	String “name”
+OUT:	200 “OK”
+ERR:	500 “Internal Server Error”
+ERR:	404 “Map Not Found”

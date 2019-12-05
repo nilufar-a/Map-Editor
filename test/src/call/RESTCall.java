@@ -13,7 +13,6 @@ import javax.ws.rs.core.Response;
 import org.glassfish.hk2.api.Immediate;
 import org.glassfish.jersey.process.internal.RequestScoped;
 
-import call.MapEditor;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Singleton;
@@ -35,14 +34,15 @@ import java.util.concurrent.Executors;
 @Singleton
 @Path("/")
 public class RESTCall {
-	private ArrayList<MapInfo> mapsInfo = new ArrayList<MapInfo>();
+	public ArrayList<MapInfo> mapsInfo = new ArrayList<MapInfo>();
 	
 	
 	public void addMap(int width, int height, int numberOfPlayers, String name) {// exceptions! w,h, min max 0
 		
 		MapInfo newMap = new MapInfo(width, height, numberOfPlayers, mapsInfo.size(), name);
 		mapsInfo.add(newMap);
-		
+		 System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+
 	}
 	
 	public void removeMap(int id) { // it doesn't check for duplicates yet tho
@@ -57,8 +57,8 @@ public class RESTCall {
 	 @Path ("/test")
 	 public MapInfo test() {
 		 mapsInfo.clear();
-		 addMap(5, 5, 4, "Stubydoobydoo");
-		 
+		 addMap(6, 6, 2, "Stubydoobydoo");
+		 System.out.println("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC");
 		 return mapsInfo.get(0);
 	 }
 	 /*

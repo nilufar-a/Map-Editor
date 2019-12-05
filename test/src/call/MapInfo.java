@@ -36,6 +36,7 @@ public class MapInfo {
 		this.obstacles = new Point[maxNumberOfObstacles]; // The number of obstacles can be at most 50% of the whole tiles
 		this.powerups = new Point[maxNumberOfPowerUps];
 		this.spawnPoints = new SpawnPoint[numberOfPlayers];
+		this.mapMatrix = new String[width][height];
 	}
 	
 	
